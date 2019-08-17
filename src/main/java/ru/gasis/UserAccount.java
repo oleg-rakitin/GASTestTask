@@ -1,9 +1,8 @@
 package ru.gasis;
 
-import ru.gasis.connector.UserAccountDUO;
+import ru.gasis.api.UserAccountDUO;
 import ru.gasis.exceptions.GasIsUserNotFoundException;
 
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 
 public class UserAccount {

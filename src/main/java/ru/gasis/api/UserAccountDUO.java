@@ -1,4 +1,4 @@
-package ru.gasis.connector;
+package ru.gasis.api;
 
 import ru.gasis.GasIsConst;
 import ru.gasis.exceptions.GasIsUserNotFoundException;
