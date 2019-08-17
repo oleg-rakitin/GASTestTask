@@ -7,16 +7,18 @@ import java.sql.SQLException;
 
 public class GasIsTask {
     public static void main(String[] args) {
-        UserAccount userAccount;
+        UserAccount olegr = null;
+        UserAccount dan = null;
         try {
-            userAccount = UserAccountDUO.getUserAccount("olegr_ц");
-            System.out.println(userAccount);
-            userAccount.changeUserLastName("zhopa");
-            UserAccountDUO.changeUserLastName("olegr_","TEST2");
-            System.out.println(userAccount);
+            olegr = UserAccountDUO.getUserAccount("olegr_");
+            olegr.changeUserLastName("Ракитин");
+            UserAccountDUO.changeUserLastName("dan3000","TEST2");
+            dan = UserAccountDUO.getUserAccount("dan3000");
         } catch (SQLException | GasIsUserNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println(olegr);
+        System.out.println(dan);
 
     }
 }
