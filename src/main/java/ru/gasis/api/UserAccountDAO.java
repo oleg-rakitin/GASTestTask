@@ -10,6 +10,8 @@ import java.sql.*;
 public class UserAccountDAO implements IUserAccountDAO {
 
     public UserAccount getUserAccount(String userName) throws SQLException, GasIsUserNotFoundException {
+        if(userName == null)
+            throw new NullPointerException();
         ResultSet rs;
         try (Connection con = DriverManager.getConnection(GasIsConst.CONNECTION_URL);
              PreparedStatement preparedStatement = con.prepareStatement(GasIsConst.QUERY_GET_USER_ACCOUNT_BY_UA_NAME);) {
@@ -30,6 +32,8 @@ public class UserAccountDAO implements IUserAccountDAO {
     }
 
     public void changeUserLastName(String userName, String lastName) throws SQLException, GasIsUserNotFoundException {
+        if(userName == null || lastName == null)
+            throw new NullPointerException();
         try (Connection con = DriverManager.getConnection(GasIsConst.CONNECTION_URL);
              PreparedStatement preparedStatement = con.prepareStatement(GasIsConst.QUERY_UPDATE_LASTNAME);) {
             preparedStatement.setString(1, lastName);
