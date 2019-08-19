@@ -9,6 +9,7 @@ import java.sql.*;
 
 public class UserAccountDAO implements IUserAccountDAO {
 
+    @Override
     public UserAccount getUserAccount(String userName) throws SQLException, GasIsUserNotFoundException {
         if(userName == null)
             throw new NullPointerException();
@@ -31,6 +32,7 @@ public class UserAccountDAO implements IUserAccountDAO {
         throw new GasIsUserNotFoundException();
     }
 
+    @Override
     public void changeUserLastName(String userName, String lastName) throws SQLException, GasIsUserNotFoundException {
         if(userName == null || lastName == null)
             throw new NullPointerException();
@@ -45,6 +47,7 @@ public class UserAccountDAO implements IUserAccountDAO {
         }
     }
 
+    @Override
     public void changeUserLastName(UserAccount user, String lastName) throws SQLException, GasIsUserNotFoundException {
         changeUserLastName(user.getUserAccountName(), lastName);
         user.setLastName(lastName);
