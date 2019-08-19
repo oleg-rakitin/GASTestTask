@@ -4,16 +4,22 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.gasis.api.UserAccountDAO;
+import ru.gasis.exceptions.GasIsUserNotFoundException;
+
+import java.sql.SQLException;
 
 public class UserAccountTest {
 
     private String accountName,firstName,lastName, city;
     private int age;
     private  UserAccount user;
+    private UserAccountDAO userAccountDAO;
 
 
     @Before
     public void initialize() {
+        userAccountDAO = new UserAccountDAO();
         UserAccount userAccount = new UserAccount("testAc", "Oleg","Rakitin", 21, "SPB");
         user = new UserAccount("test", "testName","testLastName", 99, "testCity");
         accountName = userAccount.getUserAccountName();
@@ -49,15 +55,9 @@ public class UserAccountTest {
         Assert.assertEquals(21,age);
     }
 
-    @Test
-    public void changeUserLastName() {
-        user.changeUserLastName("testTest");
-        String expected = user.getLastName();
-        Assert.assertEquals("testTest",expected);
-    }
 
     @After
-    public void afterTest(){
-        user.changeUserLastName("testLastName");
+    public void afterTest() throws SQLException, GasIsUserNotFoundException {
+        userAccountDAO.changeUserLastName(user,"testLastName");
     }
 }

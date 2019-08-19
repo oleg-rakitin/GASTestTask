@@ -1,14 +1,15 @@
 package ru.gasis.api;
 
 import ru.gasis.GasIsConst;
-import ru.gasis.exceptions.GasIsUserNotFoundException;
 import ru.gasis.UserAccount;
+import ru.gasis.exceptions.GasIsUserNotFoundException;
+import ru.gasis.interfaces.IUserAccountDAO;
 
 import java.sql.*;
 
-public class UserAccountDUO {
+public class UserAccountDAO implements IUserAccountDAO {
 
-    public static UserAccount getUserAccount(String userName) throws SQLException , GasIsUserNotFoundException {
+    public UserAccount getUserAccount(String userName) throws SQLException, GasIsUserNotFoundException {
         ResultSet rs;
         try (Connection con = DriverManager.getConnection(GasIsConst.CONNECTION_URL);
              PreparedStatement preparedStatement = con.prepareStatement(GasIsConst.QUERY_GET_USER_ACCOUNT_BY_UA_NAME);) {
@@ -28,7 +29,7 @@ public class UserAccountDUO {
         throw new GasIsUserNotFoundException();
     }
 
-    public static void changeUserLastName(String userName, String lastName) throws SQLException, GasIsUserNotFoundException {
+    public void changeUserLastName(String userName, String lastName) throws SQLException, GasIsUserNotFoundException {
         try (Connection con = DriverManager.getConnection(GasIsConst.CONNECTION_URL);
              PreparedStatement preparedStatement = con.prepareStatement(GasIsConst.QUERY_UPDATE_LASTNAME);) {
             preparedStatement.setString(1, lastName);
@@ -38,5 +39,10 @@ public class UserAccountDUO {
             if (result != 1)
                 throw new GasIsUserNotFoundException();
         }
+    }
+
+    public void changeUserLastName(UserAccount user, String lastName) throws SQLException, GasIsUserNotFoundException {
+        changeUserLastName(user.getUserAccountName(), lastName);
+        user.setLastName(lastName);
     }
 }

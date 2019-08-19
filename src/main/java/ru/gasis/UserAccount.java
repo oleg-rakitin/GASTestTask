@@ -1,10 +1,5 @@
 package ru.gasis;
 
-import ru.gasis.api.UserAccountDUO;
-import ru.gasis.exceptions.GasIsUserNotFoundException;
-
-import java.sql.SQLException;
-
 public class UserAccount {
 
     private String userAccountName,firstName,lastName,city;
@@ -90,9 +85,6 @@ public class UserAccount {
                 '}';
     }
 
-    public UserAccount() {
-    }
-
     public UserAccount(String userAccountName, String firstName, String lastName, int age, String city) {
         this.userAccountName = userAccountName;
         this.firstName = firstName;
@@ -100,14 +92,5 @@ public class UserAccount {
         this.age = age;
         this.city = city;
 
-    }
-
-    public void changeUserLastName(String lastName) {
-        try {
-            UserAccountDUO.changeUserLastName(this.getUserAccountName(), lastName);
-            setLastName(lastName);
-        } catch (SQLException | GasIsUserNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 }
