@@ -1,9 +1,9 @@
 package ru.gasis;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import ru.gasis.api.UserAccountDAO;
 import ru.gasis.exceptions.GasIsUserNotFoundException;
 
@@ -17,7 +17,7 @@ public class UserAccountTest {
     private UserAccountDAO userAccountDAO;
 
 
-    @Before
+    @BeforeTest
     public void initialize() {
         userAccountDAO = new UserAccountDAO();
         UserAccount userAccount = new UserAccount("testAc", "Oleg","Rakitin", 21, "SPB");
@@ -56,7 +56,7 @@ public class UserAccountTest {
     }
 
 
-    @After
+    @AfterTest
     public void afterTest() throws SQLException, GasIsUserNotFoundException {
         userAccountDAO.changeUserLastName(user,"testLastName");
     }

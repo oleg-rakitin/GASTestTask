@@ -1,9 +1,9 @@
 package ru.gasis.api;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import ru.gasis.UserAccount;
 import ru.gasis.exceptions.GasIsUserNotFoundException;
 
@@ -14,7 +14,7 @@ public class UserAccountDAOTest {
     private UserAccount userAccount;
     private UserAccountDAO userAccountDAO;
 
-    @Before
+    @BeforeTest
     public void initialize(){
         userAccountDAO=new UserAccountDAO();
         userAccount=new UserAccount("test","testName","testLastName",99,"testCity");
@@ -29,7 +29,7 @@ public class UserAccountDAOTest {
         } catch (SQLException | GasIsUserNotFoundException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals("Users not equals",userAccount,expectedUser);
+        Assert.assertEquals(userAccount, expectedUser, "Users not equals");
     }
 
     @Test
@@ -37,11 +37,11 @@ public class UserAccountDAOTest {
         String expected=null;
         try {
             userAccountDAO.changeUserLastName("test", "testLastNameNew");
-             expected = userAccountDAO.getUserAccount("test").getLastName();
+            expected = userAccountDAO.getUserAccount("test").getLastName();
         } catch (SQLException | GasIsUserNotFoundException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals("Last Name is not equals!","testLastNameNew",expected);
+        Assert.assertEquals("testLastNameNew",expected,"Last Name is not equals!");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class UserAccountDAOTest {
         Assert.assertEquals("testTest",expected);
     }
 
-    @After
+    @AfterTest
     public void afterTest() throws SQLException, GasIsUserNotFoundException {
         userAccountDAO.changeUserLastName(userAccount,"testLastName");
     }

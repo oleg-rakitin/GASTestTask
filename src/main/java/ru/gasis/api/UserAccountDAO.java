@@ -13,6 +13,9 @@ public class UserAccountDAO implements IUserAccountDAO {
     public UserAccount getUserAccount(String userName) throws SQLException, GasIsUserNotFoundException {
         if(userName == null)
             throw new NullPointerException();
+        else if( userName.equals(""))
+            throw new IllegalArgumentException();
+
         ResultSet rs;
         try (Connection con = DriverManager.getConnection(GasIsConst.CONNECTION_URL);
              PreparedStatement preparedStatement = con.prepareStatement(GasIsConst.QUERY_GET_USER_ACCOUNT_BY_UA_NAME);) {
@@ -33,9 +36,11 @@ public class UserAccountDAO implements IUserAccountDAO {
     }
 
     @Override
-    public void changeUserLastName(String userName, String lastName) throws SQLException, GasIsUserNotFoundException {
-        if(userName == null || lastName == null)
+    public void changeUserLastName(String userName, String lastName) throws SQLException, GasIsUserNotFoundException,IllegalArgumentException {
+        if (userName == null || lastName == null)
             throw new NullPointerException();
+        else if (userName.equals("") || lastName.equals(""))
+            throw new IllegalArgumentException();
         try (Connection con = DriverManager.getConnection(GasIsConst.CONNECTION_URL);
              PreparedStatement preparedStatement = con.prepareStatement(GasIsConst.QUERY_UPDATE_LASTNAME);) {
             preparedStatement.setString(1, lastName);
