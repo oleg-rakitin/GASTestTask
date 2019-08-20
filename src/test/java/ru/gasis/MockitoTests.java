@@ -28,25 +28,29 @@ public class MockitoTests {
     @BeforeTest
     public void init() {
         userAccountDAO = mock(UserAccountDAO.class);
-        userAccount = new UserAccount("test", "testName", "testLastName", 99, "testCity");
+        userAccount = new UserAccount("test", "testName", "testLastName", 99,
+                "testCity");
     }
 
     @Test(description = "Checks whether the received user matches the expected")
     public void testGetUserAccount() throws SQLException, GasIsUserNotFoundException {
         UserAccountDAO userAccountDAO = mock(UserAccountDAO.class);
-        UserAccount userAccount = new UserAccount("test", "testFirstName", "testLastName", 99, "testCity");
+        UserAccount userAccount = new UserAccount("test", "testFirstName",
+                "testLastName", 99, "testCity");
         when(userAccountDAO.getUserAccount(any())).thenReturn(userAccount);
         Assert.assertEquals(userAccount, userAccountDAO.getUserAccount("test"));
         verify(userAccountDAO).getUserAccount("test");
         verifyNoMoreInteractions(userAccountDAO);
     }
 
-    @Test(expectedExceptions = NullPointerException.class,description = "Throws an NullPointerException if the parameter passed is null")
+    @Test(expectedExceptions = NullPointerException.class,description = "Throws an NullPointerException if the " +
+            "parameter passed is null")
     public void testGetUserAccountWithNullArgument() throws SQLException, GasIsUserNotFoundException {
         testGetUserAccountWithIncorrectParameters(TypeOfInputParameter.FIRST_NAME_NULL);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class,description = "Throws an IllegalArgumentException if the parameter passed is empty")
+    @Test(expectedExceptions = IllegalArgumentException.class,description = "Throws an IllegalArgumentException if " +
+            "the parameter passed is empty")
     public void testGetUserAccountWithEmptyArgument() throws SQLException, GasIsUserNotFoundException {
         testGetUserAccountWithIncorrectParameters(TypeOfInputParameter.FIRST_NAME_EMPTY);
     }
@@ -57,28 +61,33 @@ public class MockitoTests {
         testChangeUserLastNameThrowException(TypeOfInputParameter.BOTH);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, description = "Throws an IllegalArgumentException if the first name is entered as an empty string")
+    @Test(expectedExceptions = IllegalArgumentException.class, description = "Throws an IllegalArgumentException if" +
+            " the first name is entered as an empty string")
     public void testChangeUserLastNameWithInvalidUserNameArgument() throws SQLException, GasIsUserNotFoundException {
         testChangeUserLastNameThrowException(TypeOfInputParameter.FIRST_NAME_EMPTY);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, description = "Throws an IllegalArgumentException if the last name is entered as an empty string")
+    @Test(expectedExceptions = IllegalArgumentException.class, description = "Throws an IllegalArgumentException if" +
+            " the last name is entered as an empty string")
     public void testChangeUserLastNameWithInvalidLastNameArgument() throws SQLException, GasIsUserNotFoundException {
         testChangeUserLastNameThrowException(TypeOfInputParameter.LAST_NAME_EMPTY);
     }
 
-    @Test(expectedExceptions = NullPointerException.class, description = "Throws an NullPointerException if the first name is entered as an null object")
+    @Test(expectedExceptions = NullPointerException.class, description = "Throws an NullPointerException if the first " +
+            "name is entered as an null object")
     public void testChangeUserLastNameWithFirstNameNullArgument() throws SQLException, GasIsUserNotFoundException {
         testChangeUserLastNameThrowException(TypeOfInputParameter.FIRST_NAME_NULL);
     }
 
-    @Test(expectedExceptions = NullPointerException.class, description = "Throws an NullPointerException if the last name is entered as an null object")
+    @Test(expectedExceptions = NullPointerException.class, description = "Throws an NullPointerException if the last" +
+            " name is entered as an null object")
     public void testChangeUserLastNameWithLastNameNullArgument() throws SQLException, GasIsUserNotFoundException {
         testChangeUserLastNameThrowException(TypeOfInputParameter.LAST_NAME_NULL);
     }
 
 
-    private void testGetUserAccountWithIncorrectParameters(TypeOfInputParameter type) throws SQLException, GasIsUserNotFoundException {
+    private void testGetUserAccountWithIncorrectParameters(TypeOfInputParameter type) throws SQLException,
+            GasIsUserNotFoundException {
         switch (type) {
             case FIRST_NAME_NULL:
                 doThrow(NullPointerException.class).when(userAccountDAO).getUserAccount(isNull());
@@ -91,7 +100,8 @@ public class MockitoTests {
         }
     }
 
-    private void testChangeUserLastNameThrowException(TypeOfInputParameter type) throws SQLException, GasIsUserNotFoundException {
+    private void testChangeUserLastNameThrowException(TypeOfInputParameter type) throws SQLException,
+            GasIsUserNotFoundException {
         switch (type) {
             case FIRST_NAME_EMPTY:
                 doThrow(IllegalArgumentException.class).when(userAccountDAO).changeUserLastName((String) any(),any());

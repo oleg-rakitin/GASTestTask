@@ -20,8 +20,10 @@ public class UserAccountTest {
     @BeforeTest
     public void initialize() {
         userAccountDAO = new UserAccountDAO();
-        UserAccount userAccount = new UserAccount("testAc", "Oleg","Rakitin", 21, "SPB");
-        user = new UserAccount("test", "testName","testLastName", 99, "testCity");
+        UserAccount userAccount = new UserAccount("testAc", "Oleg","Rakitin",
+                21, "SPB");
+        user = new UserAccount("test", "testName","testLastName", 99,
+                "testCity");
         accountName = userAccount.getUserAccountName();
         firstName = userAccount.getFirstName();
         lastName = userAccount.getLastName();

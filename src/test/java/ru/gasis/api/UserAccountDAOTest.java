@@ -17,7 +17,8 @@ public class UserAccountDAOTest {
     @BeforeTest
     public void initialize(){
         userAccountDAO=new UserAccountDAO();
-        userAccount=new UserAccount("test","testName","testLastName",99,"testCity");
+        userAccount=new UserAccount("test","testName",
+                "testLastName",99,"testCity");
     }
 
 
