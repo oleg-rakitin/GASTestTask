@@ -29,7 +29,6 @@ public class UserAccountTest {
         city = userAccount.getCity();
     }
 
-
     @Test
     public void getUserAccountName() {
         Assert.assertEquals("testAc",accountName);
