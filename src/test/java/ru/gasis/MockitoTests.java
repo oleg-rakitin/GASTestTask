@@ -16,8 +16,8 @@ import static org.mockito.Mockito.*;
 
 public class MockitoTests {
 
-    UserAccountDAO userAccountDAO, spyUserAccountDAO;
-    UserAccount userAccount;
+    private UserAccountDAO userAccountDAO, spyUserAccountDAO;
+    private UserAccount userAccount;
 
     @BeforeTest
     public void init() {
