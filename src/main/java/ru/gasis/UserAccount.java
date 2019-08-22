@@ -5,6 +5,15 @@ public class UserAccount {
     private String userAccountName,firstName,lastName,city;
     private int age;
 
+    public UserAccount(String userAccountName, String firstName, String lastName, int age, String city) {
+        this.userAccountName = userAccountName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.city = city;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,14 +92,5 @@ public class UserAccount {
                 ", city='" + city + '\'' +
                 ", age=" + age +
                 '}';
-    }
-
-    public UserAccount(String userAccountName, String firstName, String lastName, int age, String city) {
-        this.userAccountName = userAccountName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.city = city;
-
     }
 }

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class MockitoTests {
+public class MockitoTestWithoutIfElse {
 
     UserAccountDAO userAccountDAO, spyUserAccountDAO;
     UserAccount userAccount;
@@ -36,42 +36,59 @@ public class MockitoTests {
         verifyNoMoreInteractions(userAccountDAO);
     }
 
-    @Test(dataProvider = "changeUserLastNameProvider",description = "Checks the correct operation of the changeUserLastName method. \n" +
+    @Test(description = "For changeUserLastName(String,String). Checks the correct operation of the changeUserLastName method. \n" +
             "First, we use the tested method to change the last name of the account, then through the assert construction and" +
             " the call of the getUserAccount method, we get the account after the change and compare it with the expected " +
             "result.")
-    public void testChangeUserLastName(Object object, String lastName) throws SQLException, GasIsUserNotFoundException {
-        if (object instanceof String)
-            spyUserAccountDAO.changeUserLastName((String) object, lastName);
-        else spyUserAccountDAO.changeUserLastName((UserAccount) object, lastName);
+    public void testChangeUserLastNameWithString() throws SQLException, GasIsUserNotFoundException {
+        spyUserAccountDAO.changeUserLastName("test", "newLastName");
         Assert.assertEquals(spyUserAccountDAO.getUserAccount("test").getLastName(), "newLastName");
-        Mockito.verify(spyUserAccountDAO, atLeast(1)).changeUserLastName("test", "newLastName");
-        verifyZeroInteractions(userAccountDAO);
+        Mockito.verify(spyUserAccountDAO,atLeast(1)).changeUserLastName("test", "newLastName");
     }
 
-    @Test(dataProvider = "changeUserLastNameWithIncorrectArgumentsProvider" ,expectedExceptions =
+    @Test(description = "For changeUserLastName(Object,String). Checks the correct operation of the changeUserLastName method. \n" +
+            "First, we use the tested method to change the last name of the account, then through the assert construction and" +
+            " the call of the getUserAccount method, we get the account after the change and compare it with the expected " +
+            "result.")
+    public void testChangeUserLastNameWithObject() throws SQLException, GasIsUserNotFoundException {
+        spyUserAccountDAO.changeUserLastName(userAccount, "newLastName");
+        Assert.assertEquals(spyUserAccountDAO.getUserAccount("test").getLastName(), "newLastName");
+        Mockito.verify(spyUserAccountDAO).changeUserLastName(userAccount, "newLastName");
+    }
+
+    @Test(dataProvider = "changeUserLastNameWithIncorrectStringProvider" ,expectedExceptions =
             IllegalArgumentException.class,description = "Throws an Illegalargumentexception if an invalid parameter is entered")
-    public void testChangeUserLastNameException(Object object,String lastName) throws SQLException, GasIsUserNotFoundException {
-        if (object instanceof String) {
+    public void testChangeUserLastNameExceptionWithString(String userName,String lastName) throws SQLException, GasIsUserNotFoundException {
             doThrow(IllegalArgumentException.class).when(userAccountDAO).changeUserLastName((String) any(), any());
-            userAccountDAO.changeUserLastName((String) object, lastName);
-        } else
-            doThrow(IllegalArgumentException.class).when(userAccountDAO).changeUserLastName((UserAccount) any(), any());
-            userAccountDAO.changeUserLastName((UserAccount) object, lastName);
+            userAccountDAO.changeUserLastName(userName, lastName);
     }
 
-     @Test(dataProvider = "getUserAccountWithIncorrectParametersProvider",expectedExceptions = IllegalArgumentException.class,description = "Throws an IllegalArgumentException if " +
+    @Test(dataProvider = "changeUserLastNameWithNullObjectProvider" ,expectedExceptions = IllegalArgumentException.class,description = "Throws an NullPointerException if the " +
+            "parameter passed is null")
+    public void testChangeUserLastNameExceptionWithObject(UserAccount user,String lastName) throws SQLException, GasIsUserNotFoundException {
+        doThrow(IllegalArgumentException.class).when(userAccountDAO).changeUserLastName((UserAccount) any(), any());
+        userAccountDAO.changeUserLastName( user, lastName);
+    }
+
+    @Test(dataProvider = "getUserAccountWithIncorrectParametersProvider",expectedExceptions = IllegalArgumentException.class,description = "Throws an IllegalArgumentException if " +
             "the parameter passed is empty or null")
     public void testGetUserAccountWithIncorrectParameters(String userName) throws SQLException, GasIsUserNotFoundException {
-            doThrow(IllegalArgumentException.class).when(userAccountDAO).getUserAccount(any());
-            userAccountDAO.getUserAccount(userName);
+        doThrow(IllegalArgumentException.class).when(userAccountDAO).getUserAccount(any());
+        userAccountDAO.getUserAccount(userName);
     }
 
-    @DataProvider(name = "changeUserLastNameWithIncorrectArgumentsProvider")
+    @DataProvider(name = "changeUserLastNameWithIncorrectStringProvider")
     public Object[][] changeUserLastNameWithIncorrectArguments(){
         return new Object[][]
-                {{"","notExist"}, {"notExist", ""},{"notExist","notExist"},{null, "notExist"},{userAccount,null}};
+                {{"","notExist"}, {"notExist", ""},{"notExist","notExist"}};
     }
+
+    @DataProvider(name = "changeUserLastNameWithNullObjectProvider")
+    public Object[][] changeUserLastNameWithIncorrectObject(){
+        return new Object[][]
+                {{null, "notExist"},{userAccount,null}};
+    }
+
 
     @DataProvider(name = "getUserAccountWithIncorrectParametersProvider")
     public Object[][] getUserAccountWithIncorrectParams(){
