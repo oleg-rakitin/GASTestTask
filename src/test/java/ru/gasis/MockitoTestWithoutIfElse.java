@@ -29,11 +29,9 @@ public class MockitoTestWithoutIfElse {
 
     @Test(description = "Checks whether the received user matches the expected")
     public void testGetUserAccount() throws SQLException, GasIsUserNotFoundException {
-        UserAccountDAO userAccountDAO = mock(UserAccountDAO.class);
         when(userAccountDAO.getUserAccount(any())).thenReturn(userAccount);
         Assert.assertEquals(userAccount, userAccountDAO.getUserAccount("test"));
         verify(userAccountDAO).getUserAccount("test");
-        verifyNoMoreInteractions(userAccountDAO);
     }
 
     @Test(description = "For changeUserLastName(String,String). Checks the correct operation of the changeUserLastName method. \n" +
